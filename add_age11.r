@@ -2,8 +2,7 @@ add_age11 <- function(data, age){
   suppressWarnings(suppressMessages(require(classInt)))
   suppressWarnings(suppressMessages(require(dplyr)))
   suppressWarnings(suppressMessages(require(forcats)))
-  age <- enquo(age)
-  age <- data %>% pull(!!age) %>% unlist()
+  age <- data %>% pull({{age}}) %>% unlist()
   age_max <- ifelse(max(age, na.rm = T) > 84, max(age, na.rm = T), 120)
   agecut11 <- c(0, 0.99, 4, 14, 24, 34, 44, 54, 64, 74, 84, age_max)
   int11 <- classIntervals(age, n = 11, style = "fixed", 
