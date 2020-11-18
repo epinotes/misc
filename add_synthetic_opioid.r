@@ -23,15 +23,22 @@ add_synthetic_opioid <- function(data, diag_ecode_col) {
 }
 
 
-  fentanyl_icd10cm_ <- "T4041(A|$)"
+ any_synthetic_opioid_icd10cm_ <- "T404.[1-4](A|$)"
+ 
+  fentanyl_icd10cm_ <- "T4041[1-4](A|$)"
   
-  tramadol_icd10cm_ <- "T4042(A|$)"
+  tramadol_icd10cm_ <- "T4042[1-4](A|$)"
   
-  other_synth_opioid_icd10cm_ <- "T4049(A|$)"
+  other_synth_opioid_icd10cm_ <- "T4049[1-4](A|$)"
   
   
   data %>%
     mutate(
+      any_synthetic_opioid = icd_new_diag(.,
+                              expr = any_synthetic_opioid_icd10cm_,
+                              colvec = diag_ecode_col
+      ),
+      
       fentanyl = icd_new_diag(.,
                                 expr = fentanyl_icd10cm_,
                                 colvec = diag_ecode_col
@@ -47,6 +54,7 @@ add_synthetic_opioid <- function(data, diag_ecode_col) {
                             colvec = diag_ecode_col
       )
     )
+      
       
       
 }
