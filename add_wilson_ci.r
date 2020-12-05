@@ -1,4 +1,4 @@
-add_wilson_ci <- function(data, count, population, f = 10000, round = 2, level = 0.95 ){
+add_wilson_ci <- function(data, count, population, f = 10000, round = 2, level = 0.95, rate = "rate", lower = "lower_rate", upper = "upper_rate"){
   
   # confidence intervals with Wilson method 
   #simpler than the direct method 
@@ -17,8 +17,8 @@ add_wilson_ci <- function(data, count, population, f = 10000, round = 2, level =
   ll <- round((center-moe)*f, round)
   ul <- round((center+moe)*f, round)
   
-  data %>% mutate(rate = round(p*f, round),
-                  lower_rate = ll,
-                  upper_rate = ul)
+  data %>% mutate({{rate}} := round(p*f, round),
+                  {{lower}} := ll,
+                  {{upper}} := ul)
   
   }
