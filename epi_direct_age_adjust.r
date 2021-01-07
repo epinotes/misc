@@ -1,17 +1,18 @@
 epi_direct_age_adjust <- function(data, agegrp = agegrp11, count = count, population = population, s = 100000, r = 1, alpha = 0.05 ){
   
-  agegrp <- enquo(agegrp)
-  age_name <- quo_name(agegrp)
-  count <- enquo(count)
-  count_name <- quo_name(count)
-  population <- enquo(population)
-  pop_name <- quo_name(population)
-  
-  
   suppressWarnings(suppressMessages(require(dplyr)))
   suppressWarnings(suppressMessages(require(tibble)))
   suppressWarnings(suppressMessages(require(tidyr)))
+    
+  # agegrp <- enquo(agegrp)
+  age_name <- quo_name(agegrp)
+  # count <- enquo(count)
+  count_name <- quo_name(count)
+  # population <- enquo(population)
+  pop_name <- quo_name(population)
   
+  
+
   us2000std = tibble(std_pop = c(0.013818,0.055317,0.145565,0.138646, 0.135573,0.162613,0.134834,0.087247,0.066037,0.044842,0.015508),
                      !!age_name := as.double(c(1:11)))
   
@@ -25,16 +26,16 @@ epi_direct_age_adjust <- function(data, agegrp = agegrp11, count = count, popula
   # suppressWarnings(suppressMessages(
   
   data <- data %>% as.data.frame() %>% 
-    mutate(!!age_name := as.double(as.character(!!agegrp))) %>%
+    mutate(!!age_name := as.double(as.character({{agegrp}}))) %>%
     right_join(us2000std, by = age_name) %>% 
-    mutate(count_name := replace_na(!!count, 0),
-           pop_name := replace_na(!!population, 0))
+    mutate(count_name := replace_na({{count}}, 0),
+           pop_name := replace_na({{population}}, 0))
   
   std_pop <- data %>%
     pull(std_pop) %>% unlist
   
-  pop_v <- data %>% pull(as.double(!!population)) %>% unlist
-  count_v <- data %>% pull(as.double(!!count)) %>% unlist
+  pop_v <- data %>% pull(as.double({{population}})) %>% unlist
+  count_v <- data %>% pull(as.double({{count}})) %>% unlist
   
   rate <- count_v / pop_v
   stdwt <- std_pop / sum(std_pop)
