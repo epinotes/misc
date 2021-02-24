@@ -1,0 +1,20 @@
+add_age40 <- function(data, age){
+  suppressWarnings(suppressMessages(require(classInt)))
+  suppressWarnings(suppressMessages(require(dplyr)))
+  suppressWarnings(suppressMessages(require(forcats)))
+  age <- data %>% pull({{age}}) %>% unlist()
+  # <10    `10-18 19-24  25-29  30-39, 40+
+  age_max <- ifelse(max(age, na.rm = T) > 84, max(age, na.rm = T), 120)
+  agecut40 <- c(0, 9, 18, 24, 29, 39,  age_max)
+  int40 <- classIntervals(age, n = 6, style = "fixed", 
+                          fixedBreaks = agecut40, intervalClosure = "right")
+  agegrp40 <- as.factor(findCols(int40))
+  data %>% mutate(agegrp40 = agegrp40, age40 = fct_recode(agegrp40, 
+                                                          `<10` = "1", 
+                                                          `10-18` = "2", 
+                                                          `19-24` = "3", 
+                                                          `25-29` = "4", 
+                                                          `30-39` = "5",
+                                                          `40+` = "6")) %>% 
+    mutate(agegrp40 = as.double(as.character(agegrp40)))
+}
