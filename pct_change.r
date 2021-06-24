@@ -1,4 +1,4 @@
-pct_change <- function(prop, n = 1){
+pct_change <- function(prop, n = 1, p = 100){
   
- 100*(prop - dplyr::lag(prop, n = n))/dplyr::lag(prop, n = n)  
+ p*(prop - dplyr::lag(prop, n = n))/dplyr::lag(prop, n = n)  
 }
