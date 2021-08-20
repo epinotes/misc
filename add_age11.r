@@ -4,11 +4,11 @@ add_age11 <- function(data, age){
   suppressWarnings(suppressMessages(require(forcats)))
   age <- data %>% pull({{age}}) %>% unlist()
   age_max <- ifelse(max(age, na.rm = T) > 84, max(age, na.rm = T), 120)
-  agecut11 <- c(0, 0.99, 4, 14, 24, 34, 44, 54, 64, 74, 84, age_max)
-  int11 <- classInt::classIntervals(age, n = 11, style = "fixed", 
-                          fixedBreaks = agecut11, intervalClosure = "right")
-  agegrp11 <- as.factor(classInt::findCols(int11))
-  data %>% mutate(agegrp11 = agegrp11, age11 = fct_recode(agegrp11, 
+  agecut <- c(0, 0.99, 4, 14, 24, 34, 44, 54, 64, 74, 84, age_max)
+  int <- classInt::classIntervals(age, n = 11, style = "fixed", 
+                          fixedBreaks = agecut, intervalClosure = "right")
+  agegrp <- as.factor(classInt::findCols(int))
+  data %>% mutate(agegrp11 = agegrp, age11 = fct_recode(agegrp11, 
                                                           `<1` = "1", 
                                                           `01-04` = "2", 
                                                           `05-14` = "3", 
