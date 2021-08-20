@@ -8,7 +8,7 @@ add_age11 <- function(data, age){
   int <- classInt::classIntervals(age, n = 11, style = "fixed", 
                           fixedBreaks = agecut, intervalClosure = "right")
   agegrp <- classInt::findCols(int)
-  data %>% mutate(agegrp11 = agegrp, age11 = fct_recode(as.factor(agegrp11), 
+  data %>% mutate(agegrp11 = all_of(agegrp), age11 = fct_recode(as.factor(agegrp11), 
                                                           `<1` = "1", 
                                                           `01-04` = "2", 
                                                           `05-14` = "3", 
