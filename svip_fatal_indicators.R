@@ -4,7 +4,7 @@ svip_fatal_indicators <- function(data, underly) {
   # icd10 core svipp fatal injury indicators except tbi -----
 
   requireNamespace("dplyr", quietly = T)
-  requireNamespace("useicd10cm", quietly = T)
+  requireNamespace("useicd10", quietly = T)
 
   icd10_drowning_ <- "W6[5-9]|W7[0-4]|V9[02]"
 
@@ -26,7 +26,7 @@ svip_fatal_indicators <- function(data, underly) {
 
     icd_create_indicator(
       new_name = "svip_fatal_drowning",
-      expr = icd10cm_drowning_,
+      expr = icd10_drowning_,
       colvec = underly
     ) %>%
     icd_create_indicator(
