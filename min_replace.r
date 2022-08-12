@@ -3,7 +3,7 @@ min_replace <- function(data, cond_var, min_value = 1, max_value = 9, replacemen
   # ... variables with values to replace with with 'replacement'
   # no quotations marks or vector of numeric indices
   
-  sel <- c(cond_var, quos(...))
+  sel <- c({{cond_var}}, quos(...))
 
   data %>%
     mutate(
