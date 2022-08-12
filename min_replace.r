@@ -7,6 +7,6 @@ min_replace <- function(data, cond_var, min_value = 1, max_value = 9, replacemen
 
   data %>%
     mutate(
-      across(all_of(c(!!!sel, {{cond_var}})),
+      across(c(!!!sel, {{cond_var}}),
              function(x) ifelse(between({{cond_var}}, min_value, max_value), replacement, x)))
 }
